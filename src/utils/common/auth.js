@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const {ServerConfig} = require('../../config')
+const {ServerConfig} = require('../../config');
+
 
 function checkPassword(plainPassword, encryptedPassword) {
     try {
@@ -21,7 +22,17 @@ function createToken(input) {
     }
 }
 
+function verifyToken(token) {
+    try {
+        return jwt.verify(token, ServerConfig.JWT_SECRET);
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
 module.exports = {
     checkPassword,
-    createToken
+    createToken,
+    verifyToken
 }
